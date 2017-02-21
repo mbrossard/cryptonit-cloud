@@ -1,0 +1,23 @@
+language: java
+sudo: false
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+
+branches:
+  only:
+  - master
+
+os: linux
+
+cache:
+  directories:
+  - lib
+  - $HOME/.m2
+
+jdk: oraclejdk8
+
+script:
+- mvn package
