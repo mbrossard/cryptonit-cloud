@@ -15,6 +15,12 @@ public class Service {
     private static Logger LOGGER;
 
     public Service() {
+        org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("org.eclipse.jetty");
+        if (logger instanceof ch.qos.logback.classic.Logger) {
+            ch.qos.logback.classic.Logger logbackLogger = (ch.qos.logback.classic.Logger) logger;
+            logbackLogger.setLevel(ch.qos.logback.classic.Level.INFO);
+        }
+
         LOGGER = LoggerFactory.getLogger(Service.class);
     }
     public static void main(String[] args) throws Exception {
