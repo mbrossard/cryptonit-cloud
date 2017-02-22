@@ -1,5 +1,6 @@
 sudo: false
 language: java
+node_js: node
 
 addons:
   apt:
@@ -15,8 +16,10 @@ os: linux
 cache:
   directories:
   - $HOME/.m2
+  - src/main/ui/node_modules
 
 jdk: oraclejdk8
 
 script:
+- (cd src/main/ui ; npm install ; ./node_modules/.bin/gulp)
 - mvn package
