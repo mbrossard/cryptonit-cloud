@@ -25,6 +25,11 @@ public class Service {
     }
     public static void main(String[] args) throws Exception {
         int port = Integer.parseInt(System.getProperty("http.port", DEFAULT_PORT_START));
+        String url = System.getProperty("db.url", "");
+        String user = System.getProperty("db.user", "");
+        String password = System.getProperty("db.password", "");
+
+        Database db = new Database(url, user, password);
         Service server = new Service();
         server.start(port);
     }
