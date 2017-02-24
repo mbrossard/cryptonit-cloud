@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 public class Service {
     public static final String WEBAPP_RESOURCES_LOCATION = "webapp";
     private static final String DEFAULT_PORT_START = "8080";
+    private static final String DEFAULT_DB_USER = "cryptonit";
+    private static final String DEFAULT_DB_PASSWORD = "cryptonit";
     private static Logger LOGGER;
 
     public Service() {
@@ -26,8 +28,8 @@ public class Service {
     public static void main(String[] args) throws Exception {
         int port = Integer.parseInt(System.getProperty("http.port", DEFAULT_PORT_START));
         String url = System.getProperty("db.url", "");
-        String user = System.getProperty("db.user", "");
-        String password = System.getProperty("db.password", "");
+        String user = System.getProperty("db.user", DEFAULT_DB_USER);
+        String password = System.getProperty("db.password", DEFAULT_DB_PASSWORD);
 
         Database db = new Database(url, user, password);
         Service server = new Service();
