@@ -2,6 +2,7 @@ package org.cryptonit.cloud;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import org.flywaydb.core.Flyway;
 import org.flywaydb.core.internal.util.logging.Log;
 import org.flywaydb.core.internal.util.logging.LogCreator;
 import org.flywaydb.core.internal.util.logging.LogFactory;
@@ -32,5 +33,9 @@ public class Database {
             c = DriverManager.getConnection(url, user, password);
         } catch (Exception e) {
         }
+
+        Flyway flyway = new Flyway();
+        flyway.setDataSource(url, user, password);
+        flyway.migrate();
     }
 }
