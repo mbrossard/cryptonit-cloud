@@ -31,7 +31,10 @@ public class Service {
         String user = System.getProperty("db.user", DEFAULT_DB_USER);
         String password = System.getProperty("db.password", DEFAULT_DB_PASSWORD);
 
-        Database db = new Database(url, user, password);
+        Database db;
+        if(url != null && url.length() > 0) {
+            db = new Database(url, user, password);
+        }
         Service server = new Service();
         server.start(port);
     }
