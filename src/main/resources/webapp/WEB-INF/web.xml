@@ -20,6 +20,10 @@
             <param-name>javax.ws.rs.Application</param-name>
             <param-value>org.cryptonit.cloud.Application</param-value>
         </init-param>
+        <init-param>
+            <param-name>jersey.config.server.tracing</param-name>
+            <param-value>OFF</param-value>
+        </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
