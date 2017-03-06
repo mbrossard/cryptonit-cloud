@@ -17,6 +17,7 @@ import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.X509Name;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
+import org.junit.Test;
 
 /**
  * @author Mathias Brossard
@@ -91,5 +92,9 @@ public class Authority {
         }
 
         return crt;
+    }
+    
+    @Test
+    void tsaTest() {
     }
 }
