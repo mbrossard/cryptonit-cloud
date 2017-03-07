@@ -8,6 +8,7 @@ import java.security.NoSuchProviderException;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.Security;
 import java.security.cert.X509Certificate;
 import java.util.Date;
 import org.bouncycastle.asn1.x509.BasicConstraints;
@@ -96,5 +97,15 @@ public class Authority {
     
     @Test
     void tsaTest() {
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
+
+        X509Name caDN = new X509Name("CN=CA, O=Test");
+        X509Name tsaDN = new X509Name("CN=CA, O=Test");
+        KeyPair caKey = this.generateKeypair(2048);
+        KeyPair tsaKey = this.generateKeypair(2048);
+        BigInteger serialNumber = new BigInteger("1");
+        X509Certificate caCRT = makeCertificate(caKey, caDN, caKey, caDN, serialNumber, true);
+        serialNumber = serialNumber.add(new BigInteger("1"));
+        X509Certificate tsaCRT = makeCertificate(tsaKey, caDN, caKey, tsaDN, serialNumber, false);
     }
 }
