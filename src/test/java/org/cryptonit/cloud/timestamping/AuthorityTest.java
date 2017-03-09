@@ -97,7 +97,7 @@ public class AuthorityTest {
     }
     
     @Test
-    void tsaTest() {
+    public void tsaTest() {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
         X509Name caDN = new X509Name("CN=CA, O=Test");
