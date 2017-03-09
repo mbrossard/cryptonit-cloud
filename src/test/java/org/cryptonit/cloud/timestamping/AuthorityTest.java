@@ -24,7 +24,7 @@ import org.junit.Test;
 /**
  * @author Mathias Brossard
  */
-public class Authority {
+public class AuthorityTest {
     KeyPair generateKeypair(int size) {
         SecureRandom rand = new SecureRandom();
         KeyPairGenerator pairGenerator = null;
