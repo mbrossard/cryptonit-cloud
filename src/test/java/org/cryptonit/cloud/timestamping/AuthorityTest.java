@@ -101,7 +101,7 @@ public class AuthorityTest {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
         X509Name caDN = new X509Name("CN=CA, O=Test");
-        X509Name tsaDN = new X509Name("CN=CA, O=Test");
+        X509Name tsaDN = new X509Name("CN=TSA, O=Test");
         KeyPair caKey = this.generateKeypair(2048);
         KeyPair tsaKey = this.generateKeypair(2048);
         BigInteger serialNumber = new BigInteger("1");
