@@ -10,7 +10,9 @@ import java.security.PublicKey;
 import java.security.SecureRandom;
 import java.security.Security;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.ExtendedKeyUsage;
 import org.bouncycastle.asn1.x509.Extension;
@@ -109,6 +111,11 @@ public class AuthorityTest {
         serialNumber = serialNumber.add(new BigInteger("1"));
         X509Certificate tsaCRT = makeCertificate(tsaKey, caDN, caKey, tsaDN, serialNumber, false);
 
+
+        List certList = new ArrayList();
+        certList.add(caCRT);
+        certList.add(tsaCRT);
+            
         Assert.assertEquals(1, 1);
     }
 }
