@@ -125,7 +125,8 @@ public class AuthorityTest {
         } catch (CertificateEncodingException e) {
             e.printStackTrace();
         }
-            
+
+        Authority tsa = new Authority(tsaKey, tsaCRT, certs);
         Assert.assertEquals(1, 1);
     }
 }
