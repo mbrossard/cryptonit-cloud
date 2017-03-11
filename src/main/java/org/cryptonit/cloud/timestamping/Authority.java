@@ -10,8 +10,15 @@ import java.security.cert.X509Certificate;
  */
 public class Authority {
     private static Logger LOGGER;
+    KeyPair key;
+    X509Certificate crt;
+    Store certs;
         
     public Authority(KeyPair key, X509Certificate crt, Store certs) {
         LOGGER = LoggerFactory.getLogger(Authority.class);
+        
+        this.key = key;
+        this.crt = crt;
+        this.certs = certs;
     }
 }
