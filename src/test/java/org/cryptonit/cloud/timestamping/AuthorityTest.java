@@ -127,6 +127,10 @@ public class AuthorityTest {
         }
 
         Authority tsa = new Authority(tsaKey, tsaCRT, certs);
+
+        TimeStampRequestGenerator reqGen = new TimeStampRequestGenerator();
+        TimeStampRequest request = reqGen.generate(TSPAlgorithms.SHA1, new byte[20]);
+        TimeStampResponse response = tsa.timestamp(request);
         Assert.assertEquals(1, 1);
     }
 }
