@@ -1,5 +1,6 @@
 package org.cryptonit.cloud.timestamping;
 
+import org.bouncycastle.tsp.*;
 import org.bouncycastle.util.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,6 +15,11 @@ public class Authority {
     X509Certificate crt;
     Store certs;
         
+    public TimeStampResponse timestamp(TimeStampRequest request) {
+        TimeStampResponse response = null;
+        return response;
+    }
+
     public Authority(KeyPair key, X509Certificate crt, Store certs) {
         LOGGER = LoggerFactory.getLogger(Authority.class);
         
