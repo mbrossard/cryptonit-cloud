@@ -14,6 +14,7 @@ import java.security.cert.X509Certificate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.ExtendedKeyUsage;
 import org.bouncycastle.asn1.x509.Extension;
@@ -126,7 +127,7 @@ public class AuthorityTest {
             e.printStackTrace();
         }
 
-        Authority tsa = new Authority(tsaKey, tsaCRT, certs);
+        Authority tsa = new Authority(tsaKey, tsaCRT, certs, new ASN1ObjectIdentifier("1.2.3.4"));
 
         TimeStampRequestGenerator reqGen = new TimeStampRequestGenerator();
         TimeStampRequest request = reqGen.generate(TSPAlgorithms.SHA1, new byte[20]);

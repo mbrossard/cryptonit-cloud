@@ -3,6 +3,7 @@ package org.cryptonit.cloud.timestamping;
 import java.math.BigInteger;
 import java.security.*;
 import java.security.cert.X509Certificate;
+import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.tsp.*;
 import org.bouncycastle.util.Store;
 import org.slf4j.Logger;
@@ -14,8 +15,9 @@ import org.slf4j.LoggerFactory;
 public class Authority {
     private final BigInteger one = new BigInteger("1");
     private static Logger LOGGER;
-    KeyPair key;
+    ASN1ObjectIdentifier policy;
     X509Certificate crt;
+    KeyPair key;
     Store certs;
     BigInteger serial;
 
@@ -30,12 +32,13 @@ public class Authority {
         return response;
     }
 
-    public Authority(KeyPair key, X509Certificate crt, Store certs) {
+    public Authority(KeyPair key, X509Certificate crt, Store certs, ASN1ObjectIdentifier policy) {
         LOGGER = LoggerFactory.getLogger(Authority.class);
         
         this.key = key;
         this.crt = crt;
         this.certs = certs;
+        this.policy = policy;
         this.serial = new BigInteger("1");
     }
 }
