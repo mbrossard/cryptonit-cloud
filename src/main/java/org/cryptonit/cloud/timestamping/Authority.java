@@ -14,7 +14,8 @@ public class Authority {
     KeyPair key;
     X509Certificate crt;
     Store certs;
-        
+    BigInteger serial;
+
     public TimeStampResponse timestamp(TimeStampRequest request) {
         TimeStampResponse response = null;
         return response;
@@ -26,5 +27,6 @@ public class Authority {
         this.key = key;
         this.crt = crt;
         this.certs = certs;
+        this.serial = new BigInteger("1");
     }
 }
