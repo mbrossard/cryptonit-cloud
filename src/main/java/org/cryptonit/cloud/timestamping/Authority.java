@@ -52,8 +52,7 @@ public class Authority {
         return s;
     }
 
-    public TimeStampResponse timestamp(TimeStampRequest request) {
-        TimeStampResponse response = null;
-        return response;
+    public TimeStampResponse timestamp(TimeStampRequest request) throws TSPException {
+        return generator.generate(request, getNextSerial(), new Date());
     }
 }
