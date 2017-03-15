@@ -9,6 +9,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
+import org.bouncycastle.asn1.nist.NISTObjectIdentifiers;
+import org.bouncycastle.cms.SignerInfoGenerator;
+import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoGeneratorBuilder;
 import org.bouncycastle.tsp.*;
 import org.bouncycastle.util.Store;
 import org.slf4j.Logger;
@@ -23,11 +26,25 @@ public class Authority {
     }));
     private final BigInteger one = new BigInteger("1");
     private static Logger LOGGER;
-    ASN1ObjectIdentifier policy;
-    X509Certificate crt;
-    KeyPair key;
-    Store certs;
+    TimeStampResponseGenerator generator;
     BigInteger serial;
+
+    public Authority(KeyPair key, X509Certificate crt, Store certs, ASN1ObjectIdentifier policy) {
+        LOGGER = LoggerFactory.getLogger(Authority.class);
+
+        TimeStampTokenGenerator tokenGen = null;
+        try {
+            JcaSimpleSignerInfoGeneratorBuilder builder = new JcaSimpleSignerInfoGeneratorBuilder();
+            SignerInfoGenerator signer = builder.build("SHA256withRSA", key.getPrivate(), crt);
+            tokenGen = new TimeStampTokenGenerator(signer, new GenericDigestCalculator(NISTObjectIdentifiers.id_sha256), policy);
+            tokenGen.addCertificates(certs);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        generator = new TimeStampResponseGenerator(tokenGen, ALLOWED);
+        serial = new BigInteger("1");
+    }
 
     synchronized private BigInteger getNextSerial() {
         BigInteger s = serial;
@@ -38,15 +55,5 @@ public class Authority {
     public TimeStampResponse timestamp(TimeStampRequest request) {
         TimeStampResponse response = null;
         return response;
-    }
-
-    public Authority(KeyPair key, X509Certificate crt, Store certs, ASN1ObjectIdentifier policy) {
-        LOGGER = LoggerFactory.getLogger(Authority.class);
-        
-        this.key = key;
-        this.crt = crt;
-        this.certs = certs;
-        this.policy = policy;
-        this.serial = new BigInteger("1");
     }
 }
