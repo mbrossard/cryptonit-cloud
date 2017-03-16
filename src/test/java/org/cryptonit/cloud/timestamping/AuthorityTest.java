@@ -1,5 +1,6 @@
 package org.cryptonit.cloud.timestamping;
 
+import java.io.IOException;
 import java.math.BigInteger;
 import java.security.KeyPair;
 import java.security.KeyPairGenerator;
@@ -22,6 +23,7 @@ import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.X509Name;
 import org.bouncycastle.cert.jcajce.JcaCertStore;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
+import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.tsp.*;
 import org.bouncycastle.util.Store;
 import org.bouncycastle.x509.X509V3CertificateGenerator;
@@ -104,7 +106,7 @@ public class AuthorityTest {
     }
     
     @Test
-    public void tsaTest() {
+    public void tsaTest() throws IOException, TSPException, OperatorCreationException {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
         X509Name caDN = new X509Name("CN=CA, O=Test");
