@@ -108,7 +108,7 @@ public class AuthorityTest {
     }
     
     @Test
-    public void tsaTest() throws IOException, TSPException, OperatorCreationException {
+    public void tsaTest() throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
         X509Name caDN = new X509Name("CN=CA, O=Test");
@@ -125,12 +125,7 @@ public class AuthorityTest {
         certList.add(caCRT);
         certList.add(tsaCRT);
 
-        Store certs = null;
-        try {
-            certs = new JcaCertStore(certList);
-        } catch (CertificateEncodingException e) {
-            e.printStackTrace();
-        }
+        Store certs = new JcaCertStore(certList);
 
         Authority tsa = new Authority(tsaKey, tsaCRT, certs, new ASN1ObjectIdentifier("1.2.3.4"));
 
