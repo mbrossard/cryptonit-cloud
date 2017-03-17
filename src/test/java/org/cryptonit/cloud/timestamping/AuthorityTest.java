@@ -36,20 +36,12 @@ import org.junit.Test;
  * @author Mathias Brossard
  */
 public class AuthorityTest {
-    KeyPair generateKeypair(int size) {
+    KeyPair generateKeypair(int size) throws Exception {
         SecureRandom rand = new SecureRandom();
-        KeyPairGenerator pairGenerator = null;
-        try {
-            pairGenerator = KeyPairGenerator.getInstance("RSA", "BC");
-            pairGenerator.initialize(size, rand);
-            KeyPair kp = pairGenerator.generateKeyPair();
+        KeyPairGenerator pairGenerator = KeyPairGenerator.getInstance("RSA", "BC");
+        pairGenerator.initialize(size, rand);
+        KeyPair kp = pairGenerator.generateKeyPair();
         return kp;
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace(System.err);
-        } catch (NoSuchProviderException e) {
-            e.printStackTrace(System.err);
-        }
-        return null;
     }
 
     public static X509Certificate makeCertificate(KeyPair subjectKey, X509Name subjectDN,
