@@ -138,9 +138,7 @@ public class AuthorityTest {
         TimeStampRequest request = reqGen.generate(TSPAlgorithms.SHA1, new byte[20]);
         TimeStampResponse response = tsa.timestamp(request);
 
-        System.err.println(Base64.toBase64String(response.getEncoded()));
         response = new TimeStampResponse(response.getEncoded());
-        System.err.println(Base64.toBase64String(response.getEncoded()));
         TimeStampToken token = response.getTimeStampToken();
         token.validate(new JcaSimpleSignerInfoVerifierBuilder().setProvider(BouncyCastleProvider.PROVIDER_NAME).build(tsaCRT));
 
