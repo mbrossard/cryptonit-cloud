@@ -23,6 +23,8 @@ import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.X509Name;
 import org.bouncycastle.cert.jcajce.JcaCertStore;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
+import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.operator.OperatorCreationException;
 import org.bouncycastle.tsp.*;
 import org.bouncycastle.util.Store;
@@ -135,6 +137,13 @@ public class AuthorityTest {
         TimeStampRequestGenerator reqGen = new TimeStampRequestGenerator();
         TimeStampRequest request = reqGen.generate(TSPAlgorithms.SHA1, new byte[20]);
         TimeStampResponse response = tsa.timestamp(request);
+
+        System.err.println(Base64.toBase64String(response.getEncoded()));
+        response = new TimeStampResponse(response.getEncoded());
+        System.err.println(Base64.toBase64String(response.getEncoded()));
+        TimeStampToken token = response.getTimeStampToken();
+        token.validate(new JcaSimpleSignerInfoVerifierBuilder().setProvider(BouncyCastleProvider.PROVIDER_NAME).build(tsaCRT));
+
         Assert.assertEquals(1, 1);
     }
 }
