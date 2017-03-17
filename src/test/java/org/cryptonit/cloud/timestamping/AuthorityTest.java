@@ -55,14 +55,9 @@ public class AuthorityTest {
     public static X509Certificate makeCertificate(KeyPair subjectKey, X509Name subjectDN,
                                                   KeyPair issuerKey, X509Name issuerDN,
                                                   BigInteger serial, boolean isCA)
+            throws Exception
     {
-        JcaX509ExtensionUtils extUtils = null;
-        try {
-            extUtils= new JcaX509ExtensionUtils();
-        } catch (NoSuchAlgorithmException e) {
-            e.printStackTrace(System.err);
-        }
-
+        JcaX509ExtensionUtils extUtils = new JcaX509ExtensionUtils();
         PublicKey subjectPublicKey = subjectKey.getPublic();
         PrivateKey issuerPrivateKey = issuerKey.getPrivate();
         PublicKey issuerPublicKey = issuerKey.getPublic();
@@ -95,14 +90,9 @@ public class AuthorityTest {
                     new ExtendedKeyUsage(KeyPurposeId.id_kp_timeStamping));
         }
 
-        X509Certificate crt = null;
-        try {
-            crt = crtGen.generate(issuerPrivateKey);
-            crt.checkValidity(new Date());
-            crt.verify(issuerPublicKey);
-        } catch (Exception e) {
-            e.printStackTrace(System.err);
-        }
+        X509Certificate crt = crtGen.generate(issuerPrivateKey);
+        crt.checkValidity(new Date());
+        crt.verify(issuerPublicKey);
 
         return crt;
     }
