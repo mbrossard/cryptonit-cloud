@@ -14,12 +14,12 @@ import org.bouncycastle.operator.DigestCalculator;
  * @author Mathias Brossard
  */
 public class GenericDigestCalculator implements DigestCalculator {
-
     private ASN1ObjectIdentifier algo;
-    private ByteArrayOutputStream bOut = new ByteArrayOutputStream();
+    private ByteArrayOutputStream baos;
 
     public GenericDigestCalculator(ASN1ObjectIdentifier algo) {
         this.algo = algo;
+        this.baos = new ByteArrayOutputStream();
     }
 
     @Override
@@ -29,15 +29,13 @@ public class GenericDigestCalculator implements DigestCalculator {
 
     @Override
     public OutputStream getOutputStream() {
-        return bOut;
+        return baos;
     }
 
     @Override
     public byte[] getDigest() {
-        byte[] bytes = bOut.toByteArray();
-        bOut.reset();
-
         Digest d;
+
         if (this.algo.equals(OIWObjectIdentifiers.idSHA1)) {
             d = new SHA1Digest();
         } else if (this.algo.equals(NISTObjectIdentifiers.id_sha256)) {
@@ -49,8 +47,11 @@ public class GenericDigestCalculator implements DigestCalculator {
         } else {
             return null;
         }
-        d.update(bytes, 0, bytes.length);
+
+        byte[] bytes = baos.toByteArray();
         byte[] digest = new byte[d.getDigestSize()];
+        baos.reset();
+        d.update(bytes, 0, bytes.length);
         d.doFinal(digest, 0);
         return digest;
     }
