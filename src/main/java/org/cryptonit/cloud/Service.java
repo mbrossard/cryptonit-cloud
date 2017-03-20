@@ -43,6 +43,9 @@ public class Service {
         Server server = new Server(port);
         WebAppContext root = new WebAppContext();
 
+        // Serve index.html
+        Application.addClass(Index.class);
+
         root.setContextPath("/");
         root.setDescriptor(WEBAPP_RESOURCES_LOCATION + "/WEB-INF/web.xml");
 

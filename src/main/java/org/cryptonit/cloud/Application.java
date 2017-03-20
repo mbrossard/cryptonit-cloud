@@ -9,10 +9,16 @@ import javax.ws.rs.ApplicationPath;
  */
 @ApplicationPath("/")
 public class Application extends javax.ws.rs.core.Application {
+    final static private Set<Class<?>> classSet = new HashSet<>();
+
+    public static void addClass(Class c) {
+        synchronized(classSet) {
+            classSet.add(c);
+        }
+    }
+    
     @Override
     public Set<Class<?>> getClasses() {
-        Set<Class<?>> s = new HashSet<>();
-        s.add(Index.class);
-        return s;
-    }	
+        return classSet;
+    }
 }
