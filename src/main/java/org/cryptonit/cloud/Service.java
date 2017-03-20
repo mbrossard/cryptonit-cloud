@@ -15,8 +15,9 @@ public class Service {
     private static final String DEFAULT_DB_USER = "cryptonit";
     private static final String DEFAULT_DB_PASSWORD = "cryptonit";
     private static Logger LOGGER;
+    private Database database = null;
 
-    public Service() {
+    public Service(Database database) {
         org.slf4j.Logger logger = org.slf4j.LoggerFactory.getLogger("org.eclipse.jetty");
         if (logger instanceof ch.qos.logback.classic.Logger) {
             ch.qos.logback.classic.Logger logbackLogger = (ch.qos.logback.classic.Logger) logger;
@@ -24,19 +25,23 @@ public class Service {
         }
 
         LOGGER = LoggerFactory.getLogger(Service.class);
+
+        this.database = database;
     }
+
     public static void main(String[] args) throws Exception {
         int port = Integer.parseInt(System.getProperty("http.port", DEFAULT_PORT_START));
         String url = System.getProperty("db.url", "");
         String user = System.getProperty("db.user", DEFAULT_DB_USER);
         String password = System.getProperty("db.password", DEFAULT_DB_PASSWORD);
 
-        Database db;
+        Database db = null;
         if(url != null && url.length() > 0) {
             db = new Database(url, user, password);
         }
-        Service server = new Service();
-        server.start(port);
+
+        Service service = new Service(db);
+        service.start(port);
     }
 
     public void start(int port) throws Exception {
