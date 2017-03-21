@@ -20,7 +20,7 @@ import org.slf4j.LoggerFactory;
 /**
  * @author Mathias Brossard
  */
-public class Authority {
+public class Authority implements org.cryptonit.cloud.interfaces.TimestampingAuthority {
     public static final Set ALLOWED = new HashSet(Arrays.asList(new ASN1ObjectIdentifier[] {
         TSPAlgorithms.SHA1, TSPAlgorithms.SHA256, TSPAlgorithms.SHA384, TSPAlgorithms.SHA512
     }));
@@ -50,6 +50,7 @@ public class Authority {
         return s;
     }
 
+    @Override
     public TimeStampResponse timestamp(TimeStampRequest request) throws TSPException {
         return generator.generate(request, getNextSerial(), new Date());
     }
