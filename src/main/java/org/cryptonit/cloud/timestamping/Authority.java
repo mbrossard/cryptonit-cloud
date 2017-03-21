@@ -37,7 +37,7 @@ public class Authority {
             tokenGen = new TimeStampTokenGenerator(signer, new GenericDigestCalculator(NISTObjectIdentifiers.id_sha256), policy);
             tokenGen.addCertificates(certs);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error instantiating Timestamping authority", e);
         }
 
         generator = new TimeStampResponseGenerator(tokenGen, ALLOWED);
