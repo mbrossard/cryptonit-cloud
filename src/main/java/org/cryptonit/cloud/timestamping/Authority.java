@@ -25,13 +25,11 @@ public class Authority {
         TSPAlgorithms.SHA1, TSPAlgorithms.SHA256, TSPAlgorithms.SHA384, TSPAlgorithms.SHA512
     }));
     private final BigInteger one = new BigInteger("1");
-    private static Logger LOGGER;
+    private static Logger LOGGER = LoggerFactory.getLogger(Authority.class);
     TimeStampResponseGenerator generator;
     BigInteger serial;
 
     public Authority(KeyPair key, X509Certificate crt, Store certs, ASN1ObjectIdentifier policy) {
-        LOGGER = LoggerFactory.getLogger(Authority.class);
-
         TimeStampTokenGenerator tokenGen = null;
         try {
             JcaSimpleSignerInfoGeneratorBuilder builder = new JcaSimpleSignerInfoGeneratorBuilder();
