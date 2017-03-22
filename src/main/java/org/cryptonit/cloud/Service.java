@@ -1,6 +1,7 @@
 package org.cryptonit.cloud;
 
 import java.net.URL;
+import java.security.Security;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
@@ -45,6 +46,8 @@ public class Service {
     public void start(int port) throws Exception {
         Server server = new Server(port);
         WebAppContext root = new WebAppContext();
+
+        Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
         // Serve index.html
         Application.addClass(Index.class);
