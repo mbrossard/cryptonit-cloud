@@ -14,7 +14,7 @@ public class Service {
     private static final String DEFAULT_PORT_START = "8080";
     private static final String DEFAULT_DB_USER = "cryptonit";
     private static final String DEFAULT_DB_PASSWORD = "cryptonit";
-    private static Logger LOGGER;
+    private static Logger LOGGER = LoggerFactory.getLogger(Service.class);
     private Database database = null;
 
     public Service(Database database) {
@@ -23,8 +23,6 @@ public class Service {
             ch.qos.logback.classic.Logger logbackLogger = (ch.qos.logback.classic.Logger) logger;
             logbackLogger.setLevel(ch.qos.logback.classic.Level.INFO);
         }
-
-        LOGGER = LoggerFactory.getLogger(Service.class);
 
         this.database = database;
     }
