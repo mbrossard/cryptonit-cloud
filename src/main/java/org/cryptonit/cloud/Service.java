@@ -49,6 +49,8 @@ public class Service {
 
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
+        ExecutionContext context = new ExecutionContext(database);
+
         // Serve index.html
         Application.addClass(Index.class);
 
