@@ -54,6 +54,9 @@ public class Service {
         // Serve index.html
         Application.addClass(Index.class);
 
+        // Timestamping application
+        org.cryptonit.cloud.timestamping.Service.register(context);
+
         root.setContextPath("/");
         root.setDescriptor(WEBAPP_RESOURCES_LOCATION + "/WEB-INF/web.xml");
 
