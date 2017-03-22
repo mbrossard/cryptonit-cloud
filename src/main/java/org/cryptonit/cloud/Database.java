@@ -6,6 +6,7 @@ import org.flywaydb.core.Flyway;
 import org.flywaydb.core.internal.util.logging.Log;
 import org.flywaydb.core.internal.util.logging.LogCreator;
 import org.flywaydb.core.internal.util.logging.LogFactory;
+import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
@@ -13,7 +14,13 @@ import org.slf4j.LoggerFactory;
  */
 public class Database {
 
-    public Database(String url, String user, String password) {
+    private static Logger LOGGER = LoggerFactory.getLogger(Database.class);
+    String url = null;
+    String user = null;
+    String password = null;
+
+    public Database(String url, String user, String password) throws Exception {
+
         class ourSlf4jLogCreator implements LogCreator {
 
             public Log createLogger(Class<?> clazz) {
@@ -27,15 +34,19 @@ public class Database {
         }
         LogFactory.setLogCreator(new ourSlf4jLogCreator());
 
-        Connection c = null;
-        try {
-            Class.forName("org.postgresql.Driver");
-            c = DriverManager.getConnection(url, user, password);
-        } catch (Exception e) {
-        }
+        this.url = url;
+        this.user = user;
+        this.password = password;
+
+        Class.forName("org.postgresql.Driver");
+        Connection c = getConnection();
 
         Flyway flyway = new Flyway();
         flyway.setDataSource(url, user, password);
         flyway.migrate();
+    }
+
+    public Connection getConnection() throws Exception {
+        return DriverManager.getConnection(url, user, password);
     }
 }
