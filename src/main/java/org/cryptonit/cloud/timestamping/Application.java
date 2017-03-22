@@ -7,6 +7,10 @@ import javax.ws.rs.Path;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
+import org.bouncycastle.tsp.TSPException;
+import org.bouncycastle.tsp.TimeStampRequest;
+import org.bouncycastle.tsp.TimeStampResponse;
+import org.cryptonit.cloud.interfaces.TimestampingAuthority;
 import org.cryptonit.cloud.interfaces.TimestampingAuthorityFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,8 +25,13 @@ public class Application {
 
     @POST
     public Response timestamp(@Context HttpServletRequest request,
-            @Context HttpHeaders headers) throws IOException {
-        return Response.status(Response.Status.NOT_FOUND).build();
+            @Context HttpHeaders headers) throws IOException, TSPException {
+        TimeStampRequest tsq = new TimeStampRequest(request.getInputStream());
+
+        TimestampingAuthority tsa = tsaFactory.getTimestampingAuthority(request.getServerName());
+        TimeStampResponse tsr = tsa.timestamp(tsq);
+
+        return Response.ok(tsr.getEncoded()).build();
     }
 
     public static void setTimestampingAuthorityFactory(TimestampingAuthorityFactory factory) {
