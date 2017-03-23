@@ -16,6 +16,18 @@ public interface KeyStore {
             this.parameter = parameter;
             this.size = size;
         }
+        
+        public String getAlgorithm() {
+            return algorithm;
+        }
+
+        public String getParameter() {
+            return parameter;
+        }
+
+        public int getSize() {
+            return size;
+        }
     };
 
     PrivateKey getPrivateKey(String domain, String keyIdentifier);
