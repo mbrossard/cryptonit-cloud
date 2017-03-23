@@ -34,6 +34,8 @@ public interface KeyStore {
         }
     };
 
+    String generateKey(String domain, KeyParameters params);
+
     PrivateKey getPrivateKey(String domain, String keyIdentifier);
 
     PublicKey getPublicKey(String domain, String keyIdentifier);
