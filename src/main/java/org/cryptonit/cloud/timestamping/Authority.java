@@ -21,7 +21,7 @@ import org.slf4j.LoggerFactory;
  * @author Mathias Brossard
  */
 public class Authority implements org.cryptonit.cloud.interfaces.TimestampingAuthority {
-    public static final Set ALLOWED = new HashSet(Arrays.asList(new ASN1ObjectIdentifier[] {
+    public static final Set<ASN1ObjectIdentifier> ALLOWED = new HashSet<ASN1ObjectIdentifier>(Arrays.asList(new ASN1ObjectIdentifier[]{
         TSPAlgorithms.SHA1, TSPAlgorithms.SHA256, TSPAlgorithms.SHA384, TSPAlgorithms.SHA512
     }));
     private final BigInteger one = new BigInteger("1");
