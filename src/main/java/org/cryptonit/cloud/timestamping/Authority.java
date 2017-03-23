@@ -25,7 +25,7 @@ public class Authority implements org.cryptonit.cloud.interfaces.TimestampingAut
         TSPAlgorithms.SHA1, TSPAlgorithms.SHA256, TSPAlgorithms.SHA384, TSPAlgorithms.SHA512
     }));
     private final BigInteger one = new BigInteger("1");
-    private static Logger LOGGER = LoggerFactory.getLogger(Authority.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(Authority.class);
     TimeStampResponseGenerator generator;
     BigInteger serial;
 
