@@ -49,7 +49,7 @@ public class Service {
 
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
-        ExecutionContext context = new ExecutionContext(database);
+        ExecutionContext context = new ExecutionContext(database, new SqlKeyStore(database));
 
         // Serve index.html
         Application.addClass(Index.class);
