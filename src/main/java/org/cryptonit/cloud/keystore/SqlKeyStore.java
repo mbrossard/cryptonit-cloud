@@ -12,9 +12,19 @@ public class SqlKeyStore implements KeyStore {
         this.database = database;
     }
 
+    private String generateKeyPair(String domain, KeyParameters params) throws Exception {
+            return null;
+    }
+    
     @Override
     public String generateKey(String domain, KeyParameters params) {
-        return null;
+        String r = null;
+        try {
+            r = generateKeyPair(domain, params);
+        } catch(Exception e) {
+            LOGGER.error("Error generating key", e);
+        }
+        return r;
     }
 
     @Override
