@@ -7,6 +7,10 @@ import java.security.MessageDigest;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
+import java.security.spec.PKCS8EncodedKeySpec;
+import java.sql.CallableStatement;
+import java.sql.Connection;
+import java.util.Base64;
 import org.cryptonit.cloud.Database;
 import org.cryptonit.cloud.interfaces.KeyStore;
 import org.slf4j.Logger;
@@ -32,11 +36,23 @@ public class SqlKeyStore implements KeyStore {
         } else {
             return null;
         }
+
+        byte[] buf = keyFactory.getKeySpec(kp.getPrivate(), PKCS8EncodedKeySpec.class).getEncoded();
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(kp.getPublic().getEncoded());
         byte[] digest = md.digest();
 
         String keyId = String.format("%064x", new java.math.BigInteger(1, digest));
+
+        Connection c = database.getConnection();
+        CallableStatement cs = c.prepareCall("INSERT INTO keystore(domain, keyId, type, created, public, private) " + 
+                "VALUES (?, ?, ?, NOW(), ?, ?)");
+        cs.setString(1, domain);
+        cs.setString(2, keyId);
+        cs.setString(3, params.getAlgorithm());
+        cs.setString(4, Base64.getEncoder().encodeToString(buf));
+        cs.setString(5, Base64.getEncoder().encodeToString(kp.getPublic().getEncoded()));
+        cs.execute();
 
         return keyId;
     }
