@@ -2,6 +2,8 @@ package org.cryptonit.cloud;
 
 import java.net.URL;
 import java.security.Security;
+import org.cryptonit.cloud.interfaces.KeyStore;
+import org.cryptonit.cloud.keystore.SqlKeyStore;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
