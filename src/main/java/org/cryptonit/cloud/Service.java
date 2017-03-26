@@ -36,11 +36,13 @@ public class Service {
         String user = System.getProperty("db.user", DEFAULT_DB_USER);
         String password = System.getProperty("db.password", DEFAULT_DB_PASSWORD);
 
-        Database db = null;
-        if(url != null && url.length() > 0) {
-            db = new Database(url, user, password);
+        
+        if(url == null || url.length() == 0) {
+            System.err.println("No database connection provided");
+            return;
         }
 
+        Database db = new Database(url, user, password);
         Service service = new Service(db);
         service.start(port);
     }
