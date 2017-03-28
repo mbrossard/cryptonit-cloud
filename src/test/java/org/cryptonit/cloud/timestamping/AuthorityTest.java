@@ -18,7 +18,6 @@ import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.KeyPurposeId;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
 import org.bouncycastle.asn1.x500.X500Name;
-import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.cert.jcajce.JcaCertStore;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
@@ -27,11 +26,8 @@ import org.bouncycastle.tsp.*;
 import org.bouncycastle.util.Store;
 import org.bouncycastle.cert.X509v3CertificateBuilder;
 import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
-import org.bouncycastle.crypto.util.PrivateKeyFactory;
 import org.bouncycastle.operator.ContentSigner;
-import org.bouncycastle.operator.DefaultDigestAlgorithmIdentifierFinder;
-import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
-import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder;
+import org.bouncycastle.operator.jcajce.JcaContentSignerBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -77,10 +73,7 @@ public class AuthorityTest {
                     new ExtendedKeyUsage(KeyPurposeId.id_kp_timeStamping));
         }
 
-        AlgorithmIdentifier sigAlgId = new DefaultSignatureAlgorithmIdentifierFinder().find("Sha256WithRSAEncryption");
-        AlgorithmIdentifier digAlgId = new DefaultDigestAlgorithmIdentifierFinder().find(sigAlgId);
-        ContentSigner cs = new BcRSAContentSignerBuilder(sigAlgId, digAlgId).
-                build(PrivateKeyFactory.createKey(issuerPrivateKey.getEncoded()));
+        ContentSigner cs = new JcaContentSignerBuilder("SHA256withRSA").build(issuerPrivateKey);
         X509Certificate crt = new JcaX509CertificateConverter().getCertificate(crtBuild.build(cs));
         crt.checkValidity(new Date());
         crt.verify(issuerPublicKey);
