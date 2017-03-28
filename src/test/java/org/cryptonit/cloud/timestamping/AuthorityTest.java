@@ -16,14 +16,22 @@ import org.bouncycastle.asn1.x509.BasicConstraints;
 import org.bouncycastle.asn1.x509.ExtendedKeyUsage;
 import org.bouncycastle.asn1.x509.Extension;
 import org.bouncycastle.asn1.x509.KeyPurposeId;
-import org.bouncycastle.asn1.x509.X509Name;
+import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
+import org.bouncycastle.asn1.x500.X500Name;
+import org.bouncycastle.asn1.x509.AlgorithmIdentifier;
 import org.bouncycastle.cert.jcajce.JcaCertStore;
 import org.bouncycastle.cert.jcajce.JcaX509ExtensionUtils;
 import org.bouncycastle.cms.jcajce.JcaSimpleSignerInfoVerifierBuilder;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.tsp.*;
 import org.bouncycastle.util.Store;
-import org.bouncycastle.x509.X509V3CertificateGenerator;
+import org.bouncycastle.cert.X509v3CertificateBuilder;
+import org.bouncycastle.cert.jcajce.JcaX509CertificateConverter;
+import org.bouncycastle.crypto.util.PrivateKeyFactory;
+import org.bouncycastle.operator.ContentSigner;
+import org.bouncycastle.operator.DefaultDigestAlgorithmIdentifierFinder;
+import org.bouncycastle.operator.DefaultSignatureAlgorithmIdentifierFinder;
+import org.bouncycastle.operator.bc.BcRSAContentSignerBuilder;
 import org.junit.Assert;
 import org.junit.Test;
 
@@ -39,8 +47,8 @@ public class AuthorityTest {
         return kp;
     }
 
-    public static X509Certificate makeCertificate(KeyPair subjectKey, X509Name subjectDN,
-                                                  KeyPair issuerKey, X509Name issuerDN,
+    public static X509Certificate makeCertificate(KeyPair subjectKey, X500Name subjectDN,
+                                                  KeyPair issuerKey, X500Name issuerDN,
                                                   BigInteger serial, boolean isCA)
             throws Exception
     {
@@ -48,36 +56,32 @@ public class AuthorityTest {
         PublicKey subjectPublicKey = subjectKey.getPublic();
         PrivateKey issuerPrivateKey = issuerKey.getPrivate();
         PublicKey issuerPublicKey = issuerKey.getPublic();
+        SubjectPublicKeyInfo keyInfo = SubjectPublicKeyInfo.getInstance(subjectPublicKey.getEncoded());
+        Date notBefore = new Date(System.currentTimeMillis());
+        Date notAfter = new Date(System.currentTimeMillis() + (1000 * 86400 * 365));
+        X509v3CertificateBuilder crtBuild = new X509v3CertificateBuilder(issuerDN, serial, notBefore, notAfter, subjectDN, keyInfo);
 
-        X509V3CertificateGenerator crtGen = new X509V3CertificateGenerator();
-
-        crtGen.reset();
-        crtGen.setSerialNumber(serial);
-        crtGen.setIssuerDN(issuerDN);
-        crtGen.setNotBefore(new Date(System.currentTimeMillis()));
-        crtGen.setNotAfter(new Date(System.currentTimeMillis()
-                + (1000 * 86400 * 365)));
-        crtGen.setSubjectDN(subjectDN);
-        crtGen.setPublicKey(subjectPublicKey);
-        crtGen.setSignatureAlgorithm("Sha256WithRSAEncryption");
-
-        if(extUtils != null) {
-            crtGen.addExtension(Extension.subjectKeyIdentifier, false,
+        if (extUtils != null) {
+            crtBuild.addExtension(Extension.subjectKeyIdentifier, false,
                     extUtils.createSubjectKeyIdentifier(subjectPublicKey));
 
-            crtGen.addExtension(Extension.authorityKeyIdentifier, false,
+            crtBuild.addExtension(Extension.authorityKeyIdentifier, false,
                     extUtils.createAuthorityKeyIdentifier(issuerPublicKey));
         }
 
         if (isCA) {
-            crtGen.addExtension(Extension.basicConstraints, false,
+            crtBuild.addExtension(Extension.basicConstraints, false,
                     new BasicConstraints(isCA));
         } else {
-            crtGen.addExtension(Extension.extendedKeyUsage, true,
+            crtBuild.addExtension(Extension.extendedKeyUsage, true,
                     new ExtendedKeyUsage(KeyPurposeId.id_kp_timeStamping));
         }
 
-        X509Certificate crt = crtGen.generate(issuerPrivateKey);
+        AlgorithmIdentifier sigAlgId = new DefaultSignatureAlgorithmIdentifierFinder().find("Sha256WithRSAEncryption");
+        AlgorithmIdentifier digAlgId = new DefaultDigestAlgorithmIdentifierFinder().find(sigAlgId);
+        ContentSigner cs = new BcRSAContentSignerBuilder(sigAlgId, digAlgId).
+                build(PrivateKeyFactory.createKey(issuerPrivateKey.getEncoded()));
+        X509Certificate crt = new JcaX509CertificateConverter().getCertificate(crtBuild.build(cs));
         crt.checkValidity(new Date());
         crt.verify(issuerPublicKey);
 
@@ -88,8 +92,8 @@ public class AuthorityTest {
     public void tsaTest() throws Exception {
         Security.addProvider(new org.bouncycastle.jce.provider.BouncyCastleProvider());
 
-        X509Name caDN = new X509Name("CN=CA, O=Test");
-        X509Name tsaDN = new X509Name("CN=TSA, O=Test");
+        X500Name caDN = new X500Name("CN=CA, O=Test");
+        X500Name tsaDN = new X500Name("CN=TSA, O=Test");
         KeyPair caKey = this.generateKeypair(2048);
         KeyPair tsaKey = this.generateKeypair(2048);
         BigInteger serialNumber = new BigInteger("1");
