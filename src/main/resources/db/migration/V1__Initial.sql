@@ -7,3 +7,14 @@ CREATE TABLE keystore (
     public  text,
     private text
 );
+
+CREATE TABLE identity (
+    id          serial,
+    signerId    varchar,
+    domain      varchar,
+    keyId       varchar,
+    subject     varchar,
+    created     timestamp,
+    request     text,
+    certificate text
+);
