@@ -11,6 +11,7 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.util.Base64;
+import org.bouncycastle.jce.ECNamedCurveTable;
 import org.cryptonit.cloud.Database;
 import org.cryptonit.cloud.interfaces.KeyStore;
 import org.slf4j.Logger;
@@ -33,6 +34,11 @@ public class SqlKeyStore implements KeyStore {
             KeyPairGenerator rsaKeyPairGenerator = KeyPairGenerator.getInstance("RSA", "BC");
             rsaKeyPairGenerator.initialize(params.getSize(), random);
             kp = rsaKeyPairGenerator.generateKeyPair();
+        } else if (params.getAlgorithm().equalsIgnoreCase("EC")) {
+            KeyPairGenerator ecKeyPairGenerator = KeyPairGenerator.getInstance("ECDSA", "BC");
+            keyFactory = KeyFactory.getInstance("EC", "BC");
+            ecKeyPairGenerator.initialize(ECNamedCurveTable.getParameterSpec(params.getParameter()), random);
+            kp = ecKeyPairGenerator.generateKeyPair();
         } else {
             return null;
         }
