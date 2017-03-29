@@ -45,7 +45,7 @@ public class SqlKeyStore implements KeyStore {
         String keyId = String.format("%064x", new java.math.BigInteger(1, digest));
 
         Connection c = database.getConnection();
-        CallableStatement cs = c.prepareCall("INSERT INTO keystore(domain, keyId, type, created, public, private) " + 
+        CallableStatement cs = c.prepareCall("INSERT INTO keystore(domain, keyId, type, created, private, public) " + 
                 "VALUES (?, ?, ?, NOW(), ?, ?)");
         cs.setString(1, domain);
         cs.setString(2, keyId);
