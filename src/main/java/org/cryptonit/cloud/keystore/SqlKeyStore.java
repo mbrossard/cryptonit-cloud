@@ -10,6 +10,8 @@ import java.security.SecureRandom;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Base64;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.cryptonit.cloud.Database;
@@ -75,8 +77,23 @@ public class SqlKeyStore implements KeyStore {
     }
 
     @Override
-    public PrivateKey getPrivateKey(String domain, String keyIdentifier) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public PrivateKey getPrivateKey(String domain, String keyId) {
+        PrivateKey key = null;
+        try {
+            Connection c = database.getConnection();
+            PreparedStatement ps = c.prepareStatement("SELECT private, type FROM keystore WHERE domain=? and keyId=?");
+            ps.setString(1, domain);
+            ps.setString(2, keyId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                KeyFactory keyFactory =  KeyFactory.getInstance(rs.getString(2), "BC");
+                PKCS8EncodedKeySpec ks = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rs.getString(1)));
+                key = keyFactory.generatePrivate(ks);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error retrieving key", e);
+        }
+        return key;
     }
 
     @Override
