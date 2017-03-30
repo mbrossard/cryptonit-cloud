@@ -97,7 +97,22 @@ public class SqlKeyStore implements KeyStore {
     }
 
     @Override
-    public PublicKey getPublicKey(String domain, String keyIdentifier) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public PublicKey getPublicKey(String domain, String keyId) {
+        PublicKey pub = null;
+        try {
+            Connection c = database.getConnection();
+            PreparedStatement ps = c.prepareStatement("SELECT public, type FROM keystore WHERE domain=? and keyId=?");
+            ps.setString(1, domain);
+            ps.setString(2, keyId);
+            ResultSet rs = ps.executeQuery();
+            if (rs.next()) {
+                KeyFactory keyFactory =  KeyFactory.getInstance(rs.getString(2), "BC");
+                X509EncodedKeySpec ks = new X509EncodedKeySpec(Base64.getDecoder().decode(rs.getString(1)));
+                pub = keyFactory.generatePublic(ks);
+            }
+        } catch (Exception e) {
+            LOGGER.error("Error retrieving key", e);
+        }
+        return pub;
     }
 }
