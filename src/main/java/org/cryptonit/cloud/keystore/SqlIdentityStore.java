@@ -19,6 +19,19 @@ public class SqlIdentityStore implements IdentityStore {
 
     @Override
     public String newIdentity(String domain, String keyId, X500Name subject) throws Exception {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
+        PrivateKey key = keyStore.getPrivateKey(domain, keyId);
+        PublicKey pub = keyStore.getPublicKey(domain, keyId);
+        ContentSigner signer = new JcaContentSignerBuilder("SHA256withRSA").build(key);
+        JcaPKCS10CertificationRequestBuilder csrBuilder = new JcaPKCS10CertificationRequestBuilder(subject, pub);
+        String date = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date(System.currentTimeMillis()));
+        csrBuilder.addAttribute(PKCSObjectIdentifiers.pkcs_9_at_challengePassword, new DERPrintableString(date));
+        PKCS10CertificationRequest csr = csrBuilder.build(signer);
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        md.update(csr.getEncoded());
+        byte[] digest = md.digest();
+
+        String id = String.format("%064x", new java.math.BigInteger(1, digest));
+        return id;
+    }    
 }
