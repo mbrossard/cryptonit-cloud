@@ -3,7 +3,10 @@ package org.cryptonit.cloud.keystore;
 import java.security.MessageDigest;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.sql.CallableStatement;
+import java.sql.Connection;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.Date;
 import org.bouncycastle.asn1.DERPrintableString;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
@@ -41,8 +44,17 @@ public class SqlIdentityStore implements IdentityStore {
         MessageDigest md = MessageDigest.getInstance("SHA-256");
         md.update(csr.getEncoded());
         byte[] digest = md.digest();
-
         String id = String.format("%064x", new java.math.BigInteger(1, digest));
+
+        Connection c = database.getConnection();
+        CallableStatement cs = c.prepareCall("INSERT INTO identity(domain, identityId, subject, created, request) " + 
+                "VALUES (?, ?, ?, NOW(), ?)");
+        cs.setString(1, domain);
+        cs.setString(2, id);
+        cs.setString(3, subject.toString());
+        cs.setString(4, Base64.getEncoder().encodeToString(csr.getEncoded()));
+        cs.execute();
+        
         return id;
     }    
 }
