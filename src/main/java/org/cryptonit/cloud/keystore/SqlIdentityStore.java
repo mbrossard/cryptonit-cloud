@@ -8,6 +8,7 @@ import java.sql.Connection;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
 import java.util.Date;
+import javax.security.cert.X509Certificate;
 import org.bouncycastle.asn1.DERPrintableString;
 import org.bouncycastle.asn1.pkcs.PKCSObjectIdentifiers;
 import org.bouncycastle.asn1.x500.X500Name;
@@ -57,4 +58,17 @@ public class SqlIdentityStore implements IdentityStore {
         
         return id;
     }    
+
+    @Override
+    public boolean setCertificate(String domain, String identityId, X509Certificate certificate) throws Exception {
+        Connection c = database.getConnection();
+
+        CallableStatement cs = c.prepareCall("UPDATE identity SET certificate=? WHERE domain=? AND identityId=?");
+        cs.setString(1, Base64.getEncoder().encodeToString(certificate.getEncoded()));
+        cs.setString(2, domain);
+        cs.setString(3, identityId);
+        cs.execute();
+
+        return true;
+    }
 }
