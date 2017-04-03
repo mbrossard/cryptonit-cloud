@@ -63,6 +63,14 @@ public class SqlIdentityStore implements IdentityStore {
     public boolean setCertificate(String domain, String identityId, X509Certificate certificate) throws Exception {
         Connection c = database.getConnection();
 
+        PreparedStatement ps = c.prepareStatement("SELECT request FROM keystore WHERE domain=? and identityId=?");
+        ps.setString(1, domain);
+        ps.setString(2, identityId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            PKCS10CertificationRequest csr = new PKCS10CertificationRequest(Base64.getDecoder().decode(rs.getString(1)));            
+        }
+
         CallableStatement cs = c.prepareCall("UPDATE identity SET certificate=? WHERE domain=? AND identityId=?");
         cs.setString(1, Base64.getEncoder().encodeToString(certificate.getEncoded()));
         cs.setString(2, domain);
