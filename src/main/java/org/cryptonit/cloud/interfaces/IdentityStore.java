@@ -1,5 +1,6 @@
 package org.cryptonit.cloud.interfaces;
 
+import java.security.PrivateKey;
 import javax.security.cert.X509Certificate;
 import org.bouncycastle.asn1.x500.X500Name;
 import org.bouncycastle.pkcs.PKCS10CertificationRequest;
@@ -13,4 +14,6 @@ public interface IdentityStore {
     public PKCS10CertificationRequest getRequest(String domain, String identityId) throws Exception;
 
     public X509Certificate getCertificate(String domain, String identityId) throws Exception;
+
+    public PrivateKey getKey(String domain, String identityId) throws Exception;
 }

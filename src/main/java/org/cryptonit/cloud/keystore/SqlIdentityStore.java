@@ -96,4 +96,11 @@ public class SqlIdentityStore implements IdentityStore {
 
         return crt;
     }
+
+    @Override
+    public PrivateKey getKey(String domain, String identityId) throws Exception {
+        PrivateKey key = null;
+
+        return key;
+    }
 }
