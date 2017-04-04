@@ -82,4 +82,11 @@ public class SqlIdentityStore implements IdentityStore {
 
         return true;
     }
+
+    @Override
+    public PKCS10CertificationRequest getRequest(String domain, String identityId) throws Exception {
+        PKCS10CertificationRequest csr = null;
+
+        return csr;
+    }
 }
