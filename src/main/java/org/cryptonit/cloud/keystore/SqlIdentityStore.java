@@ -86,6 +86,14 @@ public class SqlIdentityStore implements IdentityStore {
     @Override
     public PKCS10CertificationRequest getRequest(String domain, String identityId) throws Exception {
         PKCS10CertificationRequest csr = null;
+        Connection c = database.getConnection();
+        PreparedStatement ps = c.prepareStatement("SELECT request FROM identity WHERE domain=? and identityId=?");
+        ps.setString(1, domain);
+        ps.setString(2, identityId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            csr = new PKCS10CertificationRequest(Base64.getDecoder().decode(rs.getString(1)));
+        }
 
         return csr;
     }
