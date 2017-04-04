@@ -11,4 +11,6 @@ public interface IdentityStore {
     public boolean setCertificate(String domain, String identityId, X509Certificate certificate) throws Exception;
     
     public PKCS10CertificationRequest getRequest(String domain, String identityId) throws Exception;
+
+    public X509Certificate getCertificate(String domain, String identityId) throws Exception;
 }

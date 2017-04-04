@@ -89,4 +89,11 @@ public class SqlIdentityStore implements IdentityStore {
 
         return csr;
     }
+
+    @Override
+    public X509Certificate getCertificate(String domain, String identityId) throws Exception {
+        X509Certificate crt = null;
+
+        return crt;
+    }
 }
