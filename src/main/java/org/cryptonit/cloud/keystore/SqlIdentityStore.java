@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class SqlIdentityStore implements IdentityStore {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlIdentityStore.class);
     Database database;
     KeyStore keyStore;
@@ -50,16 +51,16 @@ public class SqlIdentityStore implements IdentityStore {
         String id = String.format("%064x", new java.math.BigInteger(1, digest));
 
         Connection c = database.getConnection();
-        CallableStatement cs = c.prepareCall("INSERT INTO identity(domain, identityId, subject, created, request) " + 
-                "VALUES (?, ?, ?, NOW(), ?)");
+        CallableStatement cs = c.prepareCall("INSERT INTO identity(domain, identityId, subject, created, request) "
+                + "VALUES (?, ?, ?, NOW(), ?)");
         cs.setString(1, domain);
         cs.setString(2, id);
         cs.setString(3, subject.toString());
         cs.setString(4, Base64.getEncoder().encodeToString(csr.getEncoded()));
         cs.execute();
-        
+
         return id;
-    }    
+    }
 
     @Override
     public boolean setCertificate(String domain, String identityId, X509Certificate certificate) throws Exception {
@@ -70,7 +71,7 @@ public class SqlIdentityStore implements IdentityStore {
         ps.setString(2, identityId);
         ResultSet rs = ps.executeQuery();
         if (rs.next()) {
-            PKCS10CertificationRequest csr = new PKCS10CertificationRequest(Base64.getDecoder().decode(rs.getString(1)));            
+            PKCS10CertificationRequest csr = new PKCS10CertificationRequest(Base64.getDecoder().decode(rs.getString(1)));
         }
 
         CallableStatement cs = c.prepareCall("UPDATE identity SET certificate=? WHERE domain=? AND identityId=?");
