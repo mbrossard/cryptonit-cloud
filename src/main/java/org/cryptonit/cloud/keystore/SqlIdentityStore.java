@@ -115,7 +115,7 @@ public class SqlIdentityStore implements IdentityStore {
     }
 
     @Override
-    public PrivateKey getKey(String domain, String identityId) throws Exception {
+    public PrivateKey getPrivateKey(String domain, String identityId) throws Exception {
         PrivateKey key = null;
 
         Connection c = database.getConnection();

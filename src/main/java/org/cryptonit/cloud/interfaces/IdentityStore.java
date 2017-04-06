@@ -15,5 +15,5 @@ public interface IdentityStore {
 
     public X509Certificate getCertificate(String domain, String identityId) throws Exception;
 
-    public PrivateKey getKey(String domain, String identityId) throws Exception;
+    public PrivateKey getPrivateKey(String domain, String identityId) throws Exception;
 }
