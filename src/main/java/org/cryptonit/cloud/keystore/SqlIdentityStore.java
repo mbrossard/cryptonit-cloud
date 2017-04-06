@@ -129,4 +129,11 @@ public class SqlIdentityStore implements IdentityStore {
 
         return key;
     }
+
+    @Override
+    public PublicKey getPublicKey(String domain, String identityId) throws Exception {
+        PublicKey key = null;
+
+        return key;
+    }
 }
