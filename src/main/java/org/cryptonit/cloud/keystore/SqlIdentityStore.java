@@ -101,6 +101,14 @@ public class SqlIdentityStore implements IdentityStore {
     @Override
     public X509Certificate getCertificate(String domain, String identityId) throws Exception {
         X509Certificate crt = null;
+        Connection c = database.getConnection();
+        PreparedStatement ps = c.prepareStatement("SELECT certificate FROM identity WHERE domain=? and identityId=?");
+        ps.setString(1, domain);
+        ps.setString(2, identityId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            crt = X509Certificate.getInstance(Base64.getDecoder().decode(rs.getString(1)));
+        }
 
         return crt;
     }
