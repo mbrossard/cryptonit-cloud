@@ -51,12 +51,13 @@ public class SqlIdentityStore implements IdentityStore {
         String id = String.format("%064x", new java.math.BigInteger(1, digest));
 
         Connection c = database.getConnection();
-        CallableStatement cs = c.prepareCall("INSERT INTO identity(domain, identityId, subject, created, request) "
-                + "VALUES (?, ?, ?, NOW(), ?)");
+        CallableStatement cs = c.prepareCall("INSERT INTO identity(domain, identityId, keyId, subject, created, request) "
+                + "VALUES (?, ?, ?, ?, NOW(), ?)");
         cs.setString(1, domain);
         cs.setString(2, id);
-        cs.setString(3, subject.toString());
-        cs.setString(4, Base64.getEncoder().encodeToString(csr.getEncoded()));
+        cs.setString(3, keyId);
+        cs.setString(4, subject.toString());
+        cs.setString(5, Base64.getEncoder().encodeToString(csr.getEncoded()));
         cs.execute();
 
         return id;
