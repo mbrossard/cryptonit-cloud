@@ -134,6 +134,15 @@ public class SqlIdentityStore implements IdentityStore {
     public PublicKey getPublicKey(String domain, String identityId) throws Exception {
         PublicKey key = null;
 
+        Connection c = database.getConnection();
+        PreparedStatement ps = c.prepareStatement("SELECT keyId FROM identity WHERE domain=? and identityId=?");
+        ps.setString(1, domain);
+        ps.setString(2, identityId);
+        ResultSet rs = ps.executeQuery();
+        if (rs.next()) {
+            key = this.keyStore.getPublicKey(domain, rs.getString(1));
+        }
+
         return key;
     }
 }
