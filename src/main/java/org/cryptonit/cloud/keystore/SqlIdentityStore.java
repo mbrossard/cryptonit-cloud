@@ -63,6 +63,22 @@ public class SqlIdentityStore implements IdentityStore {
         return id;
     }
 
+    public String getKeyId(String domain, String identityId) throws Exception {
+        String keyId = null;
+
+        Connection c = database.getConnection();
+        PreparedStatement ps = c.prepareStatement("SELECT keyId FROM identity WHERE domain=? and identityId=?");
+        ps.setString(1, domain);
+        ps.setString(2, identityId);
+        ResultSet rs = ps.executeQuery();
+
+        if (rs.next()) {
+            keyId = rs.getString(1);
+        }
+
+        return keyId;
+    }
+
     @Override
     public boolean setCertificate(String domain, String identityId, X509Certificate certificate) throws Exception {
         Connection c = database.getConnection();
