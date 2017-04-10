@@ -18,3 +18,11 @@ CREATE TABLE identity (
     request     text,
     certificate text
 );
+
+CREATE TABLE timestamping_policy (
+    id          serial,
+    domain      varchar,
+    policyId    varchar,
+    identityId  varchar,
+    created     timestamp
+);
