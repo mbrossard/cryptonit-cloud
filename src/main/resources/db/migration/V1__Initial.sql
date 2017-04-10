@@ -10,7 +10,7 @@ CREATE TABLE keystore (
 
 CREATE TABLE identity (
     id          serial,
-    signerId    varchar,
+    identityId  varchar,
     domain      varchar,
     keyId       varchar,
     subject     varchar,
