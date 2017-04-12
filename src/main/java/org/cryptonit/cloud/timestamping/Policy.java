@@ -1,5 +1,11 @@
 package org.cryptonit.cloud.timestamping;
 
-public class Policy {
-    
+import org.cryptonit.cloud.interfaces.TimestampingPolicy;
+
+public class Policy implements TimestampingPolicy {
+
+    @Override
+    public String getIdentity() {
+        return null;
+    }
 }
