@@ -4,13 +4,21 @@ import org.cryptonit.cloud.interfaces.TimestampingPolicy;
 
 public class Policy implements TimestampingPolicy {
 
+    String identity;
+    String policyId;
+
+    public Policy(String identity, String policyId) {
+        this.identity = identity;
+        this.policyId = policyId;
+    }
+
     @Override
     public String getIdentity() {
-        return null;
+        return identity;
     }
 
     @Override
     public String getPolicyId() {
-        return null;
+        return policyId;
     }
 }
