@@ -23,10 +23,10 @@ public class PolicyFactory implements TimestampingPolicyFactory {
     }    
 
     @Override
-    public void addTimestampingPolicy(TimestampingPolicy policy, String domain) {
+    public void addTimestampingPolicy(TimestampingPolicy policy, String domain) throws Exception {
     }
 
     @Override
-    public void addTimestampingPolicy(TimestampingPolicy policy, String domain, ASN1ObjectIdentifier policyId) {
+    public void addTimestampingPolicy(TimestampingPolicy policy, String domain, ASN1ObjectIdentifier policyId) throws Exception {
     }
 }

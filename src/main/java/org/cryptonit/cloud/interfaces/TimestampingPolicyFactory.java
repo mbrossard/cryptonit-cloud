@@ -8,7 +8,7 @@ public interface TimestampingPolicyFactory {
 
     TimestampingPolicy getTimestampingPolicy(String domain, ASN1ObjectIdentifier policyId);
 
-    void addTimestampingPolicy(TimestampingPolicy policy, String domain);
+    void addTimestampingPolicy(TimestampingPolicy policy, String domain) throws Exception;
 
-    void addTimestampingPolicy(TimestampingPolicy policy, String domain, ASN1ObjectIdentifier policyId);
+    void addTimestampingPolicy(TimestampingPolicy policy, String domain, ASN1ObjectIdentifier policyId) throws Exception;
 }
