@@ -8,4 +8,9 @@ public class Policy implements TimestampingPolicy {
     public String getIdentity() {
         return null;
     }
+
+    @Override
+    public String getPolicyId() {
+        return null;
+    }
 }
