@@ -25,4 +25,8 @@ public class PolicyFactory implements TimestampingPolicyFactory {
     @Override
     public void addTimestampingPolicy(TimestampingPolicy policy, String domain) {
     }
+
+    @Override
+    public void addTimestampingPolicy(TimestampingPolicy policy, String domain, ASN1ObjectIdentifier policyId) {
+    }
 }
