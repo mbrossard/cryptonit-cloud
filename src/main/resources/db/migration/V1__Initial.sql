@@ -24,5 +24,6 @@ CREATE TABLE timestamping_policy (
     domain      varchar,
     policyId    varchar,
     identityId  varchar,
+    algorithm   varchar,
     created     timestamp
 );
