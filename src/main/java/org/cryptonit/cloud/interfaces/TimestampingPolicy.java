@@ -5,4 +5,6 @@ public interface TimestampingPolicy {
     String getPolicyId();
 
     String getIdentity();
+
+    String getAlgorithm();
 }
