@@ -24,6 +24,7 @@ public class Policy implements TimestampingPolicy {
         return policyId;
     }
 
+    @Override
     public String getAlgorithm() {
         return algorithm;
     }
