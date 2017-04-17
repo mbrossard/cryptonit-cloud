@@ -27,21 +27,23 @@ public class PolicyFactory implements TimestampingPolicyFactory {
     @Override
     public void addTimestampingPolicy(TimestampingPolicy policy, String domain) throws Exception {
         Connection c = context.database.getConnection();
-        CallableStatement cs = c.prepareCall("INSERT INTO timestamping_policy(domain, policyId, identityId, created) "
-                + "VALUES (?, NULL, ?, NOW())");
+        CallableStatement cs = c.prepareCall("INSERT INTO timestamping_policy(domain, policyId, identityId, algorithm, created) "
+                + "VALUES (?, NULL, ?, ?, NOW())");
         cs.setString(1, domain);
         cs.setString(2, policy.getIdentity());
+        cs.setString(3, policy.getAlgorithm());
         cs.execute();
     }
 
     @Override
     public void addTimestampingPolicy(TimestampingPolicy policy, String domain, ASN1ObjectIdentifier policyId) throws Exception {
         Connection c = context.database.getConnection();
-        CallableStatement cs = c.prepareCall("INSERT INTO timestamping_policy(domain, policyId, identityId, created) "
-                + "VALUES (?, ?, ?, NOW())");
+        CallableStatement cs = c.prepareCall("INSERT INTO timestamping_policy(domain, policyId, identityId, algorithm, created) "
+                + "VALUES (?, ?, ?, ?, NOW())");
         cs.setString(1, domain);
         cs.setString(2, policyId.toString());
         cs.setString(3, policy.getIdentity());
+        cs.setString(4, policy.getAlgorithm());
         cs.execute();
     }
 }
