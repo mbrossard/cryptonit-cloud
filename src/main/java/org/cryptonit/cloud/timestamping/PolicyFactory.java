@@ -38,7 +38,23 @@ public class PolicyFactory implements TimestampingPolicyFactory {
 
     @Override
     public TimestampingPolicy getTimestampingPolicy(String domain, ASN1ObjectIdentifier policyId) {
-        return null;
+        TimestampingPolicy r = null;
+
+        try {
+            Connection c = context.database.getConnection();
+            PreparedStatement ps = c.prepareStatement("SELECT identityId, policyId, algorithm FROM timestamping_policy WHERE domain=? and policyId=?");
+            ps.setString(1, domain);
+            ps.setString(2, policyId.toString());
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                r = new Policy(rs.getString(1), rs.getString(2), rs.getString(3));
+            }
+        } catch (Exception e) {
+            // TODO: Log error
+        }
+
+        return r;
     }    
 
     @Override
