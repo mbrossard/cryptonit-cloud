@@ -2,6 +2,8 @@ package org.cryptonit.cloud.timestamping;
 
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.cryptonit.cloud.ExecutionContext;
 import org.cryptonit.cloud.interfaces.TimestampingPolicy;
@@ -16,7 +18,22 @@ public class PolicyFactory implements TimestampingPolicyFactory {
 
     @Override
     public TimestampingPolicy getTimestampingPolicy(String domain) {
-        return null;
+        TimestampingPolicy r = null;
+
+        try {
+            Connection c = context.database.getConnection();
+            PreparedStatement ps = c.prepareStatement("SELECT identityId, policyId, algorithm FROM timestamping_policy WHERE domain=? and identityId is NULL");
+            ps.setString(1, domain);
+            ResultSet rs = ps.executeQuery();
+
+            if (rs.next()) {
+                r = new Policy(rs.getString(1), rs.getString(2), rs.getString(3));
+            }
+        } catch (Exception e) {
+            // TODO: Log error
+        }
+
+        return r;
     }
 
     @Override
