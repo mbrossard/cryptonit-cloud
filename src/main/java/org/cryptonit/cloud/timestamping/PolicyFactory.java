@@ -22,12 +22,12 @@ public class PolicyFactory implements TimestampingPolicyFactory {
 
         try {
             Connection c = context.database.getConnection();
-            PreparedStatement ps = c.prepareStatement("SELECT identityId, policyId, algorithm FROM timestamping_policy WHERE domain=? and identityId is NULL");
+            PreparedStatement ps = c.prepareStatement("SELECT identityId, algorithm FROM timestamping_policy WHERE domain=? and policyId is NULL");
             ps.setString(1, domain);
             ResultSet rs = ps.executeQuery();
 
             if (rs.next()) {
-                r = new Policy(rs.getString(1), rs.getString(2), rs.getString(3));
+                r = new Policy(rs.getString(1), null, rs.getString(2));
             }
         } catch (Exception e) {
             // TODO: Log error
