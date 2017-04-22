@@ -8,8 +8,11 @@ import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.cryptonit.cloud.ExecutionContext;
 import org.cryptonit.cloud.interfaces.TimestampingPolicy;
 import org.cryptonit.cloud.interfaces.TimestampingPolicyFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class PolicyFactory implements TimestampingPolicyFactory {
+    private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
     ExecutionContext context;
 
     public PolicyFactory(ExecutionContext context) {
@@ -30,7 +33,7 @@ public class PolicyFactory implements TimestampingPolicyFactory {
                 r = new Policy(rs.getString(1), null, rs.getString(2));
             }
         } catch (Exception e) {
-            // TODO: Log error
+            LOGGER.error("Error retrieving Timestamping Policy", e);
         }
 
         return r;
@@ -51,7 +54,7 @@ public class PolicyFactory implements TimestampingPolicyFactory {
                 r = new Policy(rs.getString(1), rs.getString(2), rs.getString(3));
             }
         } catch (Exception e) {
-            // TODO: Log error
+            LOGGER.error("Error retrieving Timestamping Policy", e);
         }
 
         return r;
