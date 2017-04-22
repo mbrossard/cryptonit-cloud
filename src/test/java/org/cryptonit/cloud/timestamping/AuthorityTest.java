@@ -95,7 +95,7 @@ public class AuthorityTest {
         X509Certificate tsaCRT = makeCertificate(tsaKey, caDN, caKey, tsaDN, serialNumber, false);
 
 
-        List certList = new ArrayList();
+        List<X509Certificate> certList = new ArrayList<>();
         certList.add(caCRT);
         certList.add(tsaCRT);
 
