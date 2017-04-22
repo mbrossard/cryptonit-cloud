@@ -1,5 +1,8 @@
 package org.cryptonit.cloud.interfaces;
 
+/**
+ * @author Mathias Brossard
+ */
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 
 public interface TimestampingPolicyFactory {

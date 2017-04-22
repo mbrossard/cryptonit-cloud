@@ -3,7 +3,11 @@ package org.cryptonit.cloud.interfaces;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 
+/**
+ * @author Mathias Brossard
+ */
 public interface KeyStore {
+
     public enum KeyParameters {
         RSA_2048("RSA", null, 2048),
         RSA_4096("RSA", null, 4096),
@@ -20,7 +24,7 @@ public interface KeyStore {
             this.parameter = parameter;
             this.size = size;
         }
-        
+
         public String getAlgorithm() {
             return algorithm;
         }
