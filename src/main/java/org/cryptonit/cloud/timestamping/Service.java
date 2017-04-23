@@ -2,7 +2,11 @@ package org.cryptonit.cloud.timestamping;
 
 import org.cryptonit.cloud.ExecutionContext;
 
+/**
+ * @author Mathias Brossard
+ */
 public class Service {
+
     public static void register(ExecutionContext context) {
         org.cryptonit.cloud.timestamping.AuthorityFactory tsaFactory = new AuthorityFactory(context);
         Application.setTimestampingAuthorityFactory(tsaFactory);

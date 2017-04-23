@@ -22,6 +22,7 @@ import org.slf4j.LoggerFactory;
  */
 @Path("/timestamp")
 public class Application {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
     private static TimestampingAuthorityFactory tsaFactory = null;
 

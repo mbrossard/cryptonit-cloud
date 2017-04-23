@@ -2,6 +2,9 @@ package org.cryptonit.cloud.timestamping;
 
 import org.cryptonit.cloud.interfaces.TimestampingPolicy;
 
+/**
+ * @author Mathias Brossard
+ */
 public class Policy implements TimestampingPolicy {
 
     String identity;

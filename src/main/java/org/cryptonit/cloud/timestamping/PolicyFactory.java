@@ -11,7 +11,11 @@ import org.cryptonit.cloud.interfaces.TimestampingPolicyFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Mathias Brossard
+ */
 public class PolicyFactory implements TimestampingPolicyFactory {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(Application.class);
     ExecutionContext context;
 
@@ -58,7 +62,7 @@ public class PolicyFactory implements TimestampingPolicyFactory {
         }
 
         return r;
-    }    
+    }
 
     @Override
     public void addTimestampingPolicy(TimestampingPolicy policy, String domain) throws Exception {

@@ -14,6 +14,7 @@ import org.bouncycastle.operator.DigestCalculator;
  * @author Mathias Brossard
  */
 public class GenericDigestCalculator implements DigestCalculator {
+
     private ASN1ObjectIdentifier algo;
     private ByteArrayOutputStream baos;
 
