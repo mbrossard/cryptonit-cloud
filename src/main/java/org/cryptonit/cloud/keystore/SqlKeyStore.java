@@ -20,7 +20,11 @@ import org.cryptonit.cloud.interfaces.KeyStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Mathias Brossard
+ */
 public class SqlKeyStore implements KeyStore {
+
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlKeyStore.class);
     private static final SecureRandom random = new SecureRandom();
     Database database;
@@ -32,7 +36,7 @@ public class SqlKeyStore implements KeyStore {
     private String generateKeyPair(String domain, KeyParameters params) throws Exception {
         KeyFactory keyFactory;
         KeyPair kp;
-        if(params.getAlgorithm().equalsIgnoreCase("RSA")) {
+        if (params.getAlgorithm().equalsIgnoreCase("RSA")) {
             keyFactory = KeyFactory.getInstance("RSA", "BC");
             KeyPairGenerator rsaKeyPairGenerator = KeyPairGenerator.getInstance("RSA", "BC");
             rsaKeyPairGenerator.initialize(params.getSize(), random);
@@ -54,8 +58,8 @@ public class SqlKeyStore implements KeyStore {
         String keyId = String.format("%064x", new java.math.BigInteger(1, digest));
 
         Connection c = database.getConnection();
-        CallableStatement cs = c.prepareCall("INSERT INTO keystore(domain, keyId, type, created, private, public) " + 
-                "VALUES (?, ?, ?, NOW(), ?, ?)");
+        CallableStatement cs = c.prepareCall("INSERT INTO keystore(domain, keyId, type, created, private, public) "
+                + "VALUES (?, ?, ?, NOW(), ?, ?)");
         cs.setString(1, domain);
         cs.setString(2, keyId);
         cs.setString(3, params.getAlgorithm());
@@ -65,13 +69,13 @@ public class SqlKeyStore implements KeyStore {
 
         return keyId;
     }
-    
+
     @Override
     public String generateKey(String domain, KeyParameters params) {
         String r = null;
         try {
             r = generateKeyPair(domain, params);
-        } catch(Exception e) {
+        } catch (Exception e) {
             LOGGER.error("Error generating key", e);
         }
         return r;
@@ -87,7 +91,7 @@ public class SqlKeyStore implements KeyStore {
             ps.setString(2, keyId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                KeyFactory keyFactory =  KeyFactory.getInstance(rs.getString(2), "BC");
+                KeyFactory keyFactory = KeyFactory.getInstance(rs.getString(2), "BC");
                 PKCS8EncodedKeySpec ks = new PKCS8EncodedKeySpec(Base64.getDecoder().decode(rs.getString(1)));
                 key = keyFactory.generatePrivate(ks);
             }
@@ -107,7 +111,7 @@ public class SqlKeyStore implements KeyStore {
             ps.setString(2, keyId);
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
-                KeyFactory keyFactory =  KeyFactory.getInstance(rs.getString(2), "BC");
+                KeyFactory keyFactory = KeyFactory.getInstance(rs.getString(2), "BC");
                 X509EncodedKeySpec ks = new X509EncodedKeySpec(Base64.getDecoder().decode(rs.getString(1)));
                 pub = keyFactory.generatePublic(ks);
             }

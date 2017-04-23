@@ -24,6 +24,9 @@ import org.cryptonit.cloud.interfaces.KeyStore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * @author Mathias Brossard
+ */
 public class SqlIdentityStore implements IdentityStore {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SqlIdentityStore.class);
@@ -135,7 +138,7 @@ public class SqlIdentityStore implements IdentityStore {
         PrivateKey key = null;
 
         String keyId = getKeyId(domain, identityId);
-        if(keyId != null) {
+        if (keyId != null) {
             key = this.keyStore.getPrivateKey(domain, keyId);
         }
 
@@ -147,7 +150,7 @@ public class SqlIdentityStore implements IdentityStore {
         PublicKey key = null;
 
         String keyId = getKeyId(domain, identityId);
-        if(keyId != null) {
+        if (keyId != null) {
             key = this.keyStore.getPublicKey(domain, keyId);
         }
 
