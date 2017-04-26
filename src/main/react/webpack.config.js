@@ -73,7 +73,7 @@ module.exports = {
     },
     entry: {
         init: [path.join(__dirname, './src/init.js')],
-        template: path.join(__dirname, './src/template.js'),
+        template: path.join(__dirname, './src/style.js'),
         app: [
             'babel-polyfill',
             path.join(__dirname, './src/main.js')
