@@ -1,6 +1,7 @@
 const path = require('path');
 const cssnano = require('cssnano');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 const rules = [
     {
@@ -111,6 +112,18 @@ module.exports = {
             reduceIdents: false,
             safe: true,
             sourcemap: true
+        })
+    ],
+    plugins: [
+        new HtmlWebpackPlugin({
+            template: path.join(__dirname, 'src/index.html'),
+            hash: false,
+            // favicon: paths.client('static/favicon.png'),
+            filename: 'index.html',
+            inject: 'body',
+            minify: {
+                collapseWhitespace: true
+            }
         })
     ]
 }
