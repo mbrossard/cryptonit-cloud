@@ -108,7 +108,7 @@
     "redux": "^3.0.0",
     "redux-thunk": "^2.2.0",
     "rimraf": "^2.5.1",
-    "sass-loader": "^3.0.0",
+    "sass-loader": "^6.0.3",
     "string-replace-loader": "^1.0.2",
     "style-loader": "^0.13.0",
     "truncate": "^2.0.0",
