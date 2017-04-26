@@ -1,4 +1,5 @@
 const path = require('path');
+const cssnano = require('cssnano');
 const webpack = require('webpack');
 
 const rules = [
@@ -94,5 +95,22 @@ module.exports = {
         filename: "[name].[hash].js",
         path: path.join(__dirname, './dist'),
         publicPath: '/'
-    }
+    },
+    postcss: [
+        cssnano({
+            autoprefixer: {
+                add: true,
+                remove: true,
+                browsers: ['last 2 versions']
+            },
+            discardComments: {
+                removeAll: true
+            },
+            discardUnused: false,
+            mergeIdents: false,
+            reduceIdents: false,
+            safe: true,
+            sourcemap: true
+        })
+    ]
 }
