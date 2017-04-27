@@ -3,11 +3,37 @@ const cssnano = require('cssnano');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+postcss = {
+    loader: 'postcss-loader',
+    options: {
+        plugins: function () {
+            return [
+                cssnano({
+                    autoprefixer: {
+                        add: true,
+                        remove: true,
+                        browsers: ['last 2 versions']
+                    },
+                    discardComments: {
+                        removeAll: true
+                    },
+                    discardUnused: false,
+                    mergeIdents: false,
+                    reduceIdents: false,
+                    safe: true,
+                    sourcemap: true
+                })
+            ]
+        }
+    }
+}
+
+
 const rules = [
     {
         test: /\.(js|jsx)$/,
         exclude: /node_modules/,
-        loader: 'babel',
+        loader: 'babel-loader',
         query: {
             cacheDirectory: true,
             plugins: ['transform-runtime'],
@@ -15,46 +41,47 @@ const rules = [
         }
     }, {
         test: /\.json$/,
-        loader: 'json'
+        loader: 'json-loader'
     }, {
         test: /\.scss$/,
         exclude: /\/src\/styles\//,
         loaders: [
-            'style', [
-                'css?sourceMap&-minimize',
+            'style-loader',
+            [
+                'css-loader?sourceMap&-minimize',
                 'modules',
                 'importLoaders=1',
             ].join('&'),
-            'postcss',
-            'sass?sourceMap'
+            postcss,
+            'sass-loader?sourceMap'
         ]
     }, {
         test: /\.scss$/,
         include: /\/src\/styles\//,
         loaders: [
-            'style',
-            'css?sourceMap&-minimize',
-            'postcss',
-            'sass?sourceMap'
+            'style-loader',
+            'css-loader?sourceMap&-minimize',
+            postcss,
+            'sass-loader?sourceMap'
         ]
     }, {
         test: /\.css$/,
         loaders: [
-            'style', [
-                'css?sourceMap&-minimize',
+            'style-loader', [
+                'css-loader?sourceMap&-minimize',
                 'modules',
                 'importLoaders=1',
             ].join('&'),
-            'postcss'
+            postcss
         ]
     },
-    { test: /\.woff(\?.*)?$/,  loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff' },
-    { test: /\.woff2(\?.*)?$/, loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2' },
-    { test: /\.otf(\?.*)?$/,   loader: 'file?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=font/opentype' },
-    { test: /\.ttf(\?.*)?$/,   loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/octet-stream' },
-    { test: /\.eot(\?.*)?$/,   loader: 'file?prefix=fonts/&name=[path][name].[ext]' },
-    { test: /\.svg(\?.*)?$/,   loader: 'url?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=image/svg+xml' },
-    { test: /\.(png|jpg)$/,    loader: 'url?limit=8192' }
+    { test: /\.woff(\?.*)?$/,  loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff' },
+    { test: /\.woff2(\?.*)?$/, loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/font-woff2' },
+    { test: /\.otf(\?.*)?$/,   loader: 'file-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=font/opentype' },
+    { test: /\.ttf(\?.*)?$/,   loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=application/octet-stream' },
+    { test: /\.eot(\?.*)?$/,   loader: 'file-loader?prefix=fonts/&name=[path][name].[ext]' },
+    { test: /\.svg(\?.*)?$/,   loader: 'url-loader?prefix=fonts/&name=[path][name].[ext]&limit=10000&mimetype=image/svg+xml' },
+    { test: /\.(png|jpg)$/,    loader: 'url-loader?limit=8192' }
 ]
 
 module.exports = {
@@ -63,8 +90,8 @@ module.exports = {
     target: 'web',
     devtool: 'source-map',
     resolve: {
-        root: path.join(__dirname, './src'),
-        extensions: ['', '.js', '.jsx', '.json'],
+        // root: path.join(__dirname, './src'),
+        extensions: ['.js', '.jsx', '.json'],
         modules: [
             path.resolve(__dirname, './node_modules'),
             path.resolve(__dirname, './src')
@@ -97,23 +124,6 @@ module.exports = {
         path: path.join(__dirname, './dist'),
         publicPath: '/'
     },
-    postcss: [
-        cssnano({
-            autoprefixer: {
-                add: true,
-                remove: true,
-                browsers: ['last 2 versions']
-            },
-            discardComments: {
-                removeAll: true
-            },
-            discardUnused: false,
-            mergeIdents: false,
-            reduceIdents: false,
-            safe: true,
-            sourcemap: true
-        })
-    ],
     plugins: [
         new HtmlWebpackPlugin({
             template: path.join(__dirname, 'src/index.html'),
