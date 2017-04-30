@@ -215,7 +215,6 @@ const plugins = [
   new HtmlWebpackPlugin({
     template: paths.src('index.html'),
     hash: false,
-    favicon: paths.src('static/favicon.png'),
     filename: 'index.html',
     inject: 'body',
     minify: {
@@ -289,7 +288,7 @@ module.exports = {
   },
   entry: {
       init: [paths.src('init.js')],
-      template: paths.src('template.js'),
+      template: paths.src('style.js'),
       app: __DEV__ ? APP_ENTRY_PATHS.concat(`webpack-hot-middleware/client?path=${config.compiler_public_path}__webpack_hmr`) : APP_ENTRY_PATHS,
     vendor: [
         'history',
@@ -298,15 +297,9 @@ module.exports = {
         'react-router',
         'react-router-redux',
         'redux',
-        'ismobilejs',
-        'moment',
         'uuid',
-        'perfect-scrollbar',
         'react-bootstrap',
-        'react-router-bootstrap',
-        'react-overlays',
-        'underscore',
-        'velocity-animate'
+        'react-router-bootstrap'
       ],
   },
   postcss: postcss,
