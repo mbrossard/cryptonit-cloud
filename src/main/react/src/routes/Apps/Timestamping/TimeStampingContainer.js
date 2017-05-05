@@ -13,6 +13,11 @@ class TimeStampingContainer extends RoutedComponent {
         const { section: sectionName } = this.props.routeParams;
         return (
             <div>
+                <Row>
+                    <Col lg={ 12 }>
+                      <Authorities/>
+                    </Col>
+                </Row>
             </div>
         );
     }
