@@ -1,19 +1,75 @@
-import React from 'react'
+import React from 'react';
 import PropTypes from 'prop-types'
-import Header from '../../components/Header'
-import './MainLayout.scss'
+import ROUTES, { findActiveNodes } from './../../routes/structure';
 
-export const MainLayout = ({ children }) => (
-  <div className='container text-center'>
-    <Header />
-    <div className='main-layout-content'>
-      {children}
-    </div>
-  </div>
-)
 
-MainLayout.propTypes = {
-  children : PropTypes.element.isRequired
+// Components
+import {
+    Grid,
+    Layout,
+    Navbar,
+    Header,
+} from 'components';
+
+import classes from './MainLayout.scss';
+
+import {
+    toggleNavbarExpanded,
+} from './modules/layout.js';
+
+// Sub Components
+import {
+    LayoutOptions,
+} from './components';
+
+
+const sidebarAddOns = {
 }
 
-export default MainLayout
+class MainLayout extends React.Component {
+    static propTypes = {
+    };
+
+    constructor(props, context) {
+        super(props, context);
+    }
+
+    render() {
+        return (
+            <Layout
+                { ...this.props }
+            >
+                <Layout.Navigation>
+                    <Navbar
+                    >
+                        <Navbar.Header>
+                        </Navbar.Header>
+                    </Navbar>
+                </Layout.Navigation>
+                {
+                    this.props.rawContent ? (
+                        <Layout.Content>
+                            { this.props.children }
+                        </Layout.Content>
+                    ) : (
+                        <Layout.Content>
+                            <Header
+                            />
+                            <Grid>
+                                { this.props.children }
+                            </Grid>
+                        </Layout.Content>
+                    )
+                }
+            </Layout>
+        )
+    };
+}
+
+const mapStateToProps = (state) => ({
+});
+
+const mapActionCreators = {
+};
+
+export default connect(mapStateToProps, mapActionCreators)(MainLayout);
