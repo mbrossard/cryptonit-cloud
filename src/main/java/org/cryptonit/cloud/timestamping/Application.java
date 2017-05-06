@@ -39,6 +39,14 @@ public class Application {
         return Response.ok(tsr.getEncoded()).build();
     }
 
+    @GET
+    @Path("/authorities")
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response authorities(@Context HttpServletRequest request) {
+        String r = "[]";
+        return Response.ok(r).build();
+    }
+
     public static void setTimestampingAuthorityFactory(TimestampingAuthorityFactory factory) {
         tsaFactory = factory;
     }
