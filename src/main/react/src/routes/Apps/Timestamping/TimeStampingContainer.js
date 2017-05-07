@@ -22,6 +22,17 @@ class TimeStampingContainer extends RoutedComponent {
         return (
             <div>
                 <Row>
+                    <Col md={ 12 } className='m-b-3'>
+                      <div className='flex-space-between'>
+                        <h3 className="f-w-300 m-t-1">
+                          <Link to='/timestamping'>
+                            Timestamping
+                          </Link>
+                        </h3>
+                      </div>
+                    </Col>
+                </Row>
+                <Row>
                     <Col lg={ 12 }>
                       <Authorities/>
                     </Col>
