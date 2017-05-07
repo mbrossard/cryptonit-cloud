@@ -1,8 +1,27 @@
 import React, { Component } from 'react'
 
 import {
+    DropdownButton,
+    MenuItem,
     Table
 } from 'components';
+
+const timestampingActionsDropdown = (index) => (
+    <DropdownButton title='Action' id={`dropdown-basic-${index}`}>
+        <MenuItem eventKey="1">
+            <i className='fa fa-cog fa-fw text-gray-lighter m-r-1'></i>
+            Configure
+        </MenuItem>
+        <MenuItem eventKey="2">
+            <i className='fa fa-power-off fa-fw text-gray-lighter m-r-1'></i>
+            Disable
+        </MenuItem>
+        <MenuItem eventKey="3">
+            <i className='fa fa-remove fa-fw text-gray-lighter m-r-1'></i>
+            Delete
+        </MenuItem>
+    </DropdownButton>
+);
 
 export default class Authorities extends Component {
   constructor(props) {
@@ -52,6 +71,7 @@ export default class Authorities extends Component {
                 </span>
               </td>
               <td>
+                  { timestampingActionsDropdown(authorities.id) }
               </td>
             </tr>
         )}
