@@ -29,6 +29,14 @@ class TimeStampingContainer extends RoutedComponent {
                             Timestamping
                           </Link>
                         </h3>
+                        <div className='hidden-xs'>
+                          <Button bsStyle='primary' className='m-l-1'>
+                            <span className="hidden-md hidden-sm hidden-xs">
+                              Refresh
+                            </span>
+                            <i className="fa fa-fw fa-refresh"></i>
+                          </Button>
+                        </div>
                       </div>
                     </Col>
                 </Row>
