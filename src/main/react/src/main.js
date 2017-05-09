@@ -1,17 +1,34 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import createBrowserHistory from 'history/lib/createBrowserHistory'
+import { useRouterHistory } from 'react-router'
+import { syncHistoryWithStore } from 'react-router-redux'
 import createStore from './store/createStore'
 import AppContainer from './containers/AppContainer'
 
-const store = createStore(initialState);
+const browserHistory = useRouterHistory(createBrowserHistory)({
+  basename: ''
+})
 
-let render = () => {
-    const routes = require('./routes/index').default(store);
+const initialState = window.___INITIAL_STATE__
+const store = createStore(initialState, browserHistory)
+const history = syncHistoryWithStore(browserHistory, store, {
+  selectLocationState: (state) => state.router
+})
 
-    ReactDOM.render(
-        <AppContainer store={store} routes={routes} />,
-        document.getElementById('root')
-    );
+
+let render = (routerKey = null) => {
+  const routes = require('./routes/index').default(store)
+
+  ReactDOM.render(
+    <AppContainer
+      store={store}
+      history={history}
+      routes={routes}
+      routerKey={routerKey}
+    />,
+    document.getElementById('root')
+  )
 }
 
 render();
