@@ -1,16 +1,20 @@
-import { combineReducers } from 'redux'
-import locationReducer from './location'
+import { combineReducers } from 'redux';
+import { routerReducer as router } from 'react-router-redux';
+import { reducer as notifications } from 'react-notification-system-redux';
+
+import layout from 'layouts/MainLayout/modules/layout';
 
 export const makeRootReducer = (asyncReducers) => {
   return combineReducers({
-    location: locationReducer,
+    // Add sync reducers here
+    layout,
+    router,
+    notifications,
     ...asyncReducers
   })
 }
 
 export const injectReducer = (store, { key, reducer }) => {
-  if (Object.hasOwnProperty.call(store.asyncReducers, key)) return
-
   store.asyncReducers[key] = reducer
   store.replaceReducer(makeRootReducer(store.asyncReducers))
 }
