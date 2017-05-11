@@ -6,6 +6,13 @@
   "author": "Mathias Brossard",
   "license": "AGPL-3.0",
   "dependencies": {
-    "blendid": "^4.1.0"
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
+    "blendid": "^4.1.0",
+    "history": "^4.6.1",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "react-router-redux": "^4.0.8"
   }
 }

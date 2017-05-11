@@ -11,7 +11,7 @@ module.exports = {
     entry: {
       // files paths are relative to
       // javascripts.dest in path-config.json
-      app: ["./app.js"]
+      app: ["./main.js"]
     }
   },
 
@@ -27,4 +27,3 @@ module.exports = {
     rev: true
   }
 }
-
