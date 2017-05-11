@@ -1,0 +1,11 @@
+{
+  "name": "cryptonit-cloud",
+  "version": "0.0.1",
+  "description": "Cryptonit Cloud",
+  "main": "index.js",
+  "author": "Mathias Brossard",
+  "license": "AGPL-3.0",
+  "dependencies": {
+    "blendid": "^4.1.0"
+  }
+}
