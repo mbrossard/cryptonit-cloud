@@ -9,9 +9,37 @@ const cssModulesLoader = {
   }
 }
 
+const postcssLoader = {
+  loader: 'postcss-loader',
+  options: {
+    config: {
+      ctx: {
+        cssnext: {},
+        cssnano: {
+          discardComments: {
+            removeAll: true
+          },
+          discardUnused: false,
+          mergeIdents: false,
+          reduceIdents: false,
+          safe: true,
+          sourceMap: true
+        },
+        autoprefixer: {
+            add: true,
+            remove: true,
+            browsers: ['last 2 versions']
+        }
+      }
+    },
+    sourceMap: true
+  }
+}
+
 const sass_loaders = [
   'style-loader',
   cssModulesLoader,
+  postcssLoader,
   {
     loader: 'sass-loader',
     options: {
@@ -23,6 +51,7 @@ const sass_loaders = [
 const css_loaders = [
   'style-loader',
   cssModulesLoader,
+  postcssLoader
 ]
 
 module.exports = {
