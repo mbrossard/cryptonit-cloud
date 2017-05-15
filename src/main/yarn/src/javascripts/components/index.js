@@ -9,6 +9,7 @@ import {
 
 import Button from './Button';
 import Header from './Header';
+import Table from './Table';
 
 export {
     Col,
@@ -20,4 +21,5 @@ export {
 
     Button,
     Header,
+    Table,
 };
