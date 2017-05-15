@@ -7,6 +7,7 @@ import {
     Row,
 } from 'react-bootstrap';
 
+import Button from './Button';
 import Header from './Header';
 
 export {
@@ -17,5 +18,6 @@ export {
     NavItem,
     Row,
 
+    Button,
     Header,
 };
