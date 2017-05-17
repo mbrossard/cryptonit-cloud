@@ -49,7 +49,7 @@ export default class Authorities extends Component {
       </thead>
       <tbody>
         {this.state.authorities.map((authorities, i) =>
-        <tr>
+        <tr key={"authority_" + i}>
             <td>
                 <span>
                   {authorities.id}
