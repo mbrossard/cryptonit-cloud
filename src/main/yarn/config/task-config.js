@@ -98,6 +98,76 @@ module.exports = {
             limit: 8192
           }
         }
+      },
+      {
+        test: /\.woff$/,
+        loader: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: "application/font-woff",
+            prefix:"fonts/",
+            name:"[path][name].[ext]"
+          }
+        }
+      },
+      {
+        test: /\.woff2$/,
+        loader: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: "application/font-woff2",
+            prefix:"fonts/",
+            name:"[path][name].[ext]"
+          }
+        }
+      },
+      {
+        test: /\.ttf$/,
+        loader: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: "application/octet-stream",
+            prefix:"fonts/",
+            name:"[path][name].[ext]"
+          }
+        }
+      },
+      {
+        test: /\.svg$/,
+        loader: {
+          loader: 'url-loader',
+          options: {
+            limit: 10000,
+            mimetype: "image/svg+xml",
+            prefix:"fonts/",
+            name:"[path][name].[ext]"
+          }
+        }
+      },
+      {
+        test: /\.otf$/,
+        loader: {
+          loader: 'file-loader',
+          options: {
+            limit: 10000,
+            mimetype: "font/opentype",
+            prefix:"fonts/",
+            name:"[path][name].[ext]"
+          }
+        }
+      },
+      {
+        test: /\.eot$/,
+        loader: {
+          loader: 'file-loader',
+          options: {
+            mimetype: "font/opentype",
+            prefix:"fonts/"
+          }
+        }
       }
     ]
   },
