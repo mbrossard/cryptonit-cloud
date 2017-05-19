@@ -64,7 +64,7 @@ module.exports = {
   stylesheets : true,
 
   javascripts: {
-    extensions: ["js", "json", "scss", "jpg", "png"],
+    extensions: ["js", "json", "scss", "jpg", "png", "woff", "woff2", "ttf", "svg", "otf", "eot"],
 
     customizeWebpackConfig: function (webpackConfig, env, webpack) {
       console.log(webpackConfig)
