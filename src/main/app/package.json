@@ -2,6 +2,7 @@
   "name": "cryptonit-cloud",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://localhost:8080",
   "dependencies": {
     "node-sass-chokidar": "^0.0.1",
     "npm-run-all": "^4.0.2",
