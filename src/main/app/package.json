@@ -4,6 +4,7 @@
   "private": true,
   "proxy": "http://localhost:8080",
   "dependencies": {
+    "bootstrap-sass": "^3.3.7",
     "node-sass-chokidar": "^0.0.1",
     "npm-run-all": "^4.0.2",
     "react": "^15.5.4",
