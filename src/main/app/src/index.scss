@@ -1,6 +1,7 @@
 $icon-font-path: "bootstrap-sass/assets/fonts/bootstrap/";
 @import "bootstrap-sass/assets/stylesheets/bootstrap-sprockets";
 @import "bootstrap-sass/assets/stylesheets/bootstrap";
+@import "theme/app.scss";
 
 body {
   margin: 0;
