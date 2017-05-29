@@ -11,6 +11,8 @@ import {
 
 import Layout from './Layout';
 import Navbar from './Navbar';
+import Table from './Table';
+
 export {
     Col,
     DropdownButton,
@@ -22,4 +24,5 @@ export {
     Row,
     Layout,
     Navbar,
+    Table,
 };
